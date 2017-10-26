@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.platform      = Gem::Platform::RUBY
 
   gem.add_dependency 'activemodel', '~> 3'
-  gem.add_dependency 'mail', '~> 2'
+  gem.add_dependency 'mail', '~> 2.5.5'
 
   gem.add_development_dependency 'rake', '~> 0.9.2'
   gem.add_development_dependency 'rspec-rails', '~> 2.11'
