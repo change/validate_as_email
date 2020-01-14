@@ -34,7 +34,12 @@ module ActiveModel
       private
 
       def valid?
-        !!(domain_and_address_present? && domain_has_more_than_one_atom?)
+        !!(
+          domain_and_address_present? &&
+          domain_has_more_than_one_atom? &&
+          !domain_starts_with_dot? &&
+          !email_has_consecutive_dots?
+        )
       end
 
       def domain_and_address_present?
@@ -43,6 +48,14 @@ module ActiveModel
 
       def domain_has_more_than_one_atom?
         tree.domain.dot_atom_text.elements.length > 1
+      end
+
+      def email_has_consecutive_dots?
+        email.address.match(/[.]{2,}/)
+      end
+
+      def domain_starts_with_dot?
+        email.domain.start_with?('.')
       end
 
       def add_error
