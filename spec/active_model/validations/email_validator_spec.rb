@@ -25,6 +25,39 @@ describe ActiveModel::Validations::EmailValidator do
       end
     end
 
+    context 'when email has two consecutive dots in the domain' do
+      before do
+        person.email = 'dwight@change..org'
+      end
+
+      it 'adds a symbol to errors for I18n lookup' do
+        validator.validate(person)
+        expect(person.errors.to_a).to be_present
+      end
+    end
+
+    context 'when email has two consecutive dots in the address' do
+      before do
+        person.email = 'dwight..schrute@change.org'
+      end
+
+      it 'adds a symbol to errors for I18n lookup' do
+        validator.validate(person)
+        expect(person.errors.to_a).to be_present
+      end
+    end
+
+    context 'when email has a domain starting with a dot' do
+      before do
+        person.email = 'ola2122008@.ru'
+      end
+
+      it 'adds a symbol to errors for I18n lookup' do
+        validator.validate(person)
+        expect(person.errors.to_a).to be_present
+      end
+    end
+
     context 'with nil allowed' do
       subject(:validator) do
         build_validator(allow_nil: true)
